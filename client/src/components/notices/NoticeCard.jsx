@@ -1,7 +1,7 @@
-import { Check, Star } from 'lucide-react'
+import { Check, Pencil, Star, Trash2 } from 'lucide-react'
 import { categoryClasses } from '../../data/notices'
 
-export function NoticeCard({ notice, onRead, onToggleFavorite }) {
+export function NoticeCard({ notice, onRead, onToggleFavorite, canManage, onEdit, onDelete }) {
   return (
     <article className={`notice-card ${notice.unread ? 'unread' : ''}`}>
       <div className="notice-top">
@@ -14,6 +14,16 @@ export function NoticeCard({ notice, onRead, onToggleFavorite }) {
         </div>
         <div className="notice-meta">
           <span>{notice.time}</span>
+          {canManage && (
+            <div className="notice-management">
+              <button type="button" aria-label="Editar aviso" onClick={() => onEdit(notice)}>
+                <Pencil size={14} />
+              </button>
+              <button type="button" aria-label="Excluir aviso" onClick={() => onDelete(notice)}>
+                <Trash2 size={14} />
+              </button>
+            </div>
+          )}
           <button
             className={`favorite-button ${notice.favorite ? 'active' : ''}`}
             aria-label={notice.favorite ? 'Remover dos salvos' : 'Salvar aviso'}

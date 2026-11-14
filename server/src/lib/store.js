@@ -69,4 +69,24 @@ export const noticesStore = {
       await writeCollection('notices.json', notices)
       return notice
     }),
+  update: (id, changes) =>
+    enqueue(async () => {
+      const notices = await readCollection('notices.json')
+      const index = notices.findIndex((notice) => notice.id === id)
+      if (index === -1) return null
+      notices[index] = { ...notices[index], ...changes, updatedAt: new Date().toISOString() }
+      await writeCollection('notices.json', notices)
+      return notices[index]
+    }),
+  remove: (id) =>
+    enqueue(async () => {
+      const notices = await readCollection('notices.json')
+      const notice = notices.find((item) => item.id === id)
+      if (!notice) return null
+      await writeCollection(
+        'notices.json',
+        notices.filter((item) => item.id !== id),
+      )
+      return notice
+    }),
 }

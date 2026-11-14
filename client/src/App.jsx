@@ -4,6 +4,8 @@ import { BottomNav } from './components/layout/BottomNav'
 import { Sidebar } from './components/layout/Sidebar'
 import { Topbar } from './components/layout/Topbar'
 import { EmitNotificationModal } from './components/notices/EmitNotificationModal'
+import { EditNoticeModal } from './components/notices/EditNoticeModal'
+import { NoticePublicationToast } from './components/notices/NoticePublicationToast'
 import { ProfileSettingsModal } from './components/profile/ProfileSettingsModal'
 import { selectedDay } from './data/calendar'
 import { initialNotices } from './data/notices'
@@ -21,6 +23,8 @@ function App() {
   const [dark, setDark] = useState(false)
   const [notificationModalOpen, setNotificationModalOpen] = useState(false)
   const [profileModalOpen, setProfileModalOpen] = useState(false)
+  const [noticeBeingEdited, setNoticeBeingEdited] = useState(null)
+  const [publishedNotice, setPublishedNotice] = useState(null)
   const [month, setMonth] = useState(selectedDay.month)
   const [year, setYear] = useState(selectedDay.year)
   const { message, showToast } = useToast()
@@ -88,10 +92,36 @@ function App() {
       initials: getInitials(user.name),
       time: 'agora',
       unread: false,
+      authorId: user.id,
     }
     setNotices((current) => [notice, ...current])
     setNotificationModalOpen(false)
+    setPublishedNotice(notice)
     showToast('Notificação enviada')
+  }
+
+  const canManageNotice = (notice) =>
+    Boolean(
+      notice.authorId === user.id &&
+      (user.role === 'Administrador' || user.permissions?.includes('notifications:emit')),
+    )
+
+  const editNotice = ({ title, message }) => {
+    setNotices((current) =>
+      current.map((notice) =>
+        notice.id === noticeBeingEdited.id
+          ? { ...notice, title, body: message, edited: true }
+          : notice,
+      ),
+    )
+    setNoticeBeingEdited(null)
+    showToast('Aviso atualizado')
+  }
+
+  const deleteNotice = (notice) => {
+    if (!window.confirm('Excluir este aviso? Essa ação não pode ser desfeita.')) return
+    setNotices((current) => current.filter((item) => item.id !== notice.id))
+    showToast('Aviso excluído')
   }
 
   const saveProfile = (changes) => {
@@ -143,6 +173,9 @@ function App() {
             onMonthChange={updateMonth}
             canEmitNotification={Boolean(user.permissions?.includes('notifications:emit'))}
             onEmitNotification={() => setNotificationModalOpen(true)}
+            canManageNotice={canManageNotice}
+            onEditNotice={setNoticeBeingEdited}
+            onDeleteNotice={deleteNotice}
           />
         </main>
       </div>
@@ -164,6 +197,14 @@ function App() {
           onSave={saveProfile}
         />
       )}
+      {noticeBeingEdited && (
+        <EditNoticeModal
+          notice={noticeBeingEdited}
+          onClose={() => setNoticeBeingEdited(null)}
+          onSubmit={editNotice}
+        />
+      )}
+      <NoticePublicationToast notice={publishedNotice} onClose={() => setPublishedNotice(null)} />
       <Toast message={message} />
     </div>
   )

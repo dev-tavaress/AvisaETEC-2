@@ -8,3 +8,7 @@
 - **RN 03 - Validação de Credenciais e Segurança de Senha:** Nenhuma senha de usuário (aluno ou funcionário) pode ser armazenada em texto plano no banco de dados; deve obrigatoriamente passar por um algoritmo de hash seguro.
 
 - **RN 04 - Gestão do Estado do Aviso (Lido/Não Lido):** Cada notificação entregue deve conter um indicador de status booleano para rastrear se o aluno visualizou ou não o aviso no mural.
+
+- **RN 05 - Autoria e Administração de Avisos:** O autor pode editar ou excluir apenas avisos próprios. O perfil Administrador também pode gerenciar os avisos que publicou; toda operação deve ser autorizada no servidor.
+
+- **RN 06 - Destinatário Normalizado:** Um aviso pode possuir um ou mais destinatários registrados em uma tabela de associação, sem listas ou objetos JSON dentro das tabelas relacionais.

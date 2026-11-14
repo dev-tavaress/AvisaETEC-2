@@ -1,29 +1,20 @@
 # Modelo Conceitual do Banco de Dados - AvisaETEC
 
-> **Nota:** o banco de dados do AvisaETEC é **não relacional, em documentos JSON** (coleções `users` e `notices` em `server/data`), conforme o [Escopo do Projeto](../01-gestao-e-escopo/escopo-do-projeto.md). Este documento mantém a modelagem relacional original como referência das entidades e dos relacionamentos; ele ainda não foi reescrito no formato de coleções JSON.
+O AvisaETEC utilizará **MySQL** como banco relacional. Os dados de negócio não serão armazenados em documentos JSON; cada entidade possui uma tabela própria e os relacionamentos são representados por chaves estrangeiras.
 
-## 1. Entidades e Atributos
+## 1. Entidades
 
-1. Funcionario
-Atributos: Identificador (ID), Nome, E-mail, Senha, Perfil (Diretor, Coordenador, Professor).
+- **Usuario:** pessoas autenticadas, com nome, e-mail, hash de senha e perfil.
+- **Turma:** módulo/turma da ETEC.
+- **Aviso:** título, corpo, autor, data de publicação e data de atualização.
+- **AvisoDestinatario:** associação entre um aviso e uma turma ou usuário destinatário.
+- **AvisoLeitura:** estado de leitura de cada aviso por usuário.
 
-2. Modulo (Representa as Turmas/Módulos)
-Atributos: Identificador (ID), Nome do Módulo.
+## 2. Relacionamentos
 
-3. Aluno
-Atributos: Identificador (ID), Nome, E-mail, Senha.
+1. Um usuário pode publicar muitos avisos; cada aviso possui um único autor.
+2. Um aviso pode ser direcionado a uma ou mais turmas e/ou usuários por meio de `AvisoDestinatario`.
+3. Um usuário pode pertencer a uma turma.
+4. Um usuário pode registrar uma leitura para cada aviso recebido.
 
-4. Notificacao (Avisos emitidos)
-Atributos: Identificador (ID), Título, Mensagem, Status de Leitura, Data/Hora de Envio.
-
----
-
-## 2. Relacionamentos (Cardinalidade)
-
-1. Funcionario x Notificacao (1 para N): Um funcionário pode enviar várias notificações, mas cada notificação é criada por um único funcionário remetente.
-
-2. Modulo x Aluno (1 para N): Um módulo/turma possui muitos alunos matriculados, mas cada aluno pertence a um único módulo.
-
-3. Modulo x Notificacao (1 para N - Opcional): Um módulo pode ser o destino de várias notificações (envio para turma inteira).
-
-4. Aluno x Notificacao (1 para N - Opcional): Um aluno pode ser o destinatário direto de várias notificações (envio individualizado).
+Essa estrutura elimina colunas de destino duplicadas e listas/objetos JSON, mantendo a integridade referencial e permitindo consultas SQL, auditoria e índices.

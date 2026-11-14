@@ -12,7 +12,6 @@ export function Topbar({
   onProfile,
   onLogout,
 }) {
-  const labels = { mural: 'Mural', saved: 'Salvos' }
   return (
     <header className="topbar">
       <button
@@ -26,11 +25,6 @@ export function Topbar({
         </span>
         <span className="sidebar-toggle-label">{sidebarOpen ? 'Ocultar menu' : 'Exibir menu'}</span>
       </button>
-      <div className="breadcrumb">
-        <span>AvisaETEC</span>
-        <i>/</i>
-        <strong>{labels[view]}</strong>
-      </div>
       <div className="top-actions">
         <button className="icon-button notification-button" aria-label="Notificações">
           <Bell size={18} />

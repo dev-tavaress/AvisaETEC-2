@@ -7,7 +7,7 @@ Funcionários autorizados enviam avisos para turmas ou alunos; os alunos acompan
 
 - **Front-end:** React 19, Vite, Tailwind CSS, lucide-react
 - **Back-end:** Node.js, Express, Socket.IO, JWT, bcryptjs, helmet, express-rate-limit
-- **Banco de dados:** não relacional, em documentos JSON (coleções `users.json` e `notices.json` em `server/data`), acessado só por `server/src/lib/store.js`. Os arquivos de exemplo ficam em `server/data/seed` (versionados); na primeira execução o servidor cria `server/data/*.json` a partir deles, e esses dados vivos não entram no Git
+- **Banco de dados:** MySQL relacional, conforme o modelo em `docs/03-banco-de-dados`. O acesso fica isolado em `server/src/lib/store.js`, permitindo trocar a implementação sem alterar as rotas. Os arquivos JSON existentes são apenas fixtures locais do protótipo e não fazem parte do modelo de produção.
 
 ## Estrutura do projeto
 
@@ -26,7 +26,7 @@ AvisaETEC/
 │       ├── App.jsx
 │       └── main.jsx
 ├── server/                  # Back-end (Express + Socket.IO)
-│   ├── data/seed/           # users.json e notices.json de exemplo (os dados vivos ficam ao lado, fora do Git)
+│   ├── data/seed/           # fixtures locais da demonstração (não são o modelo de produção)
 │   └── src/
 │       ├── config/          # leitura das variáveis de ambiente
 │       ├── lib/             # acesso aos dados (store) e limitador de conexões
@@ -78,6 +78,8 @@ A senha de ambas é `demo123`.
 | GET | `/api/me` | Autenticado |
 | GET | `/api/notices` | Autenticado |
 | POST | `/api/notices` | Permissão `notifications:emit` |
+| PATCH | `/api/notices/:id` | Autor do aviso ou Administrador |
+| DELETE | `/api/notices/:id` | Autor do aviso ou Administrador |
 
 Tempo real: o evento `notice.created` é enviado pelo Socket.IO. Conecte com `io({ auth: { token } })`.
 
@@ -103,5 +105,5 @@ Os limites ficam em `server/src/middleware/rateLimit.js`.
 
 - O front-end ainda usa dados de demonstração: login e avisos **não** chamam a API.
   Próximo passo: ligar `LoginPage`/`App` aos endpoints e ao Socket.IO.
-- Reescrever os documentos de `docs/03-banco-de-dados` no formato de coleções JSON (hoje descrevem o modelo relacional original).
+- Configurar a conexão MySQL e executar o esquema relacional descrito em `docs/03-banco-de-dados` antes da publicação.
 - Para publicar: definir `JWT_SECRET` forte, `NODE_ENV=production`, `TRUST_PROXY` e `CLIENT_ORIGIN` corretos.

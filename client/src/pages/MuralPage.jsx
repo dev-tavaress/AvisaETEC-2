@@ -8,6 +8,9 @@ export function MuralPage({
   filteredNotices,
   onRead,
   onToggleFavorite,
+  canManageNotice,
+  onEditNotice,
+  onDeleteNotice,
   onLoadMore,
   month,
   year,
@@ -59,6 +62,9 @@ export function MuralPage({
                 notice={notice}
                 onRead={onRead}
                 onToggleFavorite={onToggleFavorite}
+                canManage={canManageNotice(notice)}
+                onEdit={onEditNotice}
+                onDelete={onDeleteNotice}
               />
             ))}
           </div>
@@ -77,6 +83,9 @@ export function MuralPage({
           <Calendar month={month} year={year} onMonthChange={onMonthChange} />
         </aside>
       </div>
+      <footer className="site-footer">
+        AvisaETEC é um projeto estudantil desenvolvido para a ETEC. Todos os direitos reservados.
+      </footer>
     </div>
   )
 }

@@ -18,4 +18,10 @@ O projeto aplica conceitos ensinados pela grade curricular da instituição, sen
 
 - **Back-end:** Estrutura em JavaScript (Node.js) idealizada para comunicação bidirecional do servidor em tempo real utilizando WebSockets.
 
-- **Banco de Dados:** Banco de dados não relacional (NoSQL) baseado em documentos JSON, organizado em coleções (`users` e `notices`) armazenadas em arquivos na pasta `server/data` e acessadas por uma camada de persistência única (`server/src/lib/store.js`), o que permite trocar o armazenamento no futuro sem alterar as rotas. Segurança de dados através de autenticação por tokens, encriptação de palavras-passe e conformidade com as diretrizes da LGPD (Lei Geral de Proteção de Dados).
+- **Banco de Dados:** MySQL, com modelo relacional normalizado para usuários, turmas, avisos, destinatários e leituras. A aplicação deverá acessar o banco por uma camada de persistência única (`server/src/lib/store.js`), sem armazenar dados de negócio em documentos JSON. Segurança de dados através de autenticação por tokens, hash de senhas e conformidade com as diretrizes da LGPD (Lei Geral de Proteção de Dados).
+
+## 3. Funcionalidades do mural
+- Funcionários autorizados podem publicar avisos direcionados a uma turma ou a um aluno.
+- O autor ou um administrador pode editar e excluir seus próprios avisos, com autorização validada no servidor.
+- Após um professor publicar uma notificação, o corpo da mensagem aparece em um modal compacto no canto inferior direito.
+- O mural exibe um rodapé discreto informando o caráter estudantil do projeto e a reserva de direitos.

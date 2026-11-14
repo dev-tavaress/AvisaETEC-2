@@ -61,4 +61,62 @@ router.post(
   },
 )
 
+function canManageNotice(notice, auth) {
+  return notice?.authorId === auth.sub
+}
+
+router.patch(
+  '/:id',
+  requireAuth,
+  requirePermission('notifications:emit'),
+  async (request, response, next) => {
+    try {
+      const notice = (await noticesStore.list()).find((item) => item.id === request.params.id)
+      if (!notice) return response.status(404).json({ error: 'Aviso não encontrado.' })
+      if (!canManageNotice(notice, request.auth)) {
+        return response.status(403).json({ error: 'Só é possível editar seus próprios avisos.' })
+      }
+
+      const { title, message } = request.body ?? {}
+      const fields = {
+        title: readField(title, limits.title),
+        message: readField(message, limits.message),
+      }
+      if (Object.values(fields).some((value) => value === null)) {
+        return response.status(400).json({ error: 'Título e mensagem são obrigatórios.' })
+      }
+
+      const updatedNotice = await noticesStore.update(request.params.id, {
+        title: fields.title,
+        body: fields.message,
+      })
+      request.app.get('io')?.emit('notice.updated', updatedNotice)
+      return response.json(updatedNotice)
+    } catch (error) {
+      return next(error)
+    }
+  },
+)
+
+router.delete(
+  '/:id',
+  requireAuth,
+  requirePermission('notifications:emit'),
+  async (request, response, next) => {
+    try {
+      const notice = (await noticesStore.list()).find((item) => item.id === request.params.id)
+      if (!notice) return response.status(404).json({ error: 'Aviso não encontrado.' })
+      if (!canManageNotice(notice, request.auth)) {
+        return response.status(403).json({ error: 'Só é possível excluir seus próprios avisos.' })
+      }
+
+      await noticesStore.remove(request.params.id)
+      request.app.get('io')?.emit('notice.deleted', { id: request.params.id })
+      return response.status(204).send()
+    } catch (error) {
+      return next(error)
+    }
+  },
+)
+
 export default router

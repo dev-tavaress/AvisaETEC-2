@@ -1,58 +1,60 @@
 # DER - AvisaETEC
 
-> **Nota:** o banco de dados do AvisaETEC é **não relacional, em documentos JSON** (coleções `users` e `notices` em `server/data`), conforme o [Escopo do Projeto](../01-gestao-e-escopo/escopo-do-projeto.md). Este documento mantém a modelagem relacional original como referência das entidades e dos relacionamentos; ele ainda não foi reescrito no formato de coleções JSON.
-
-## 1. Modelo DER
-O banco de dados relacional foi estruturado para suportar autenticação segura, controle de perfis e o envio flexível de avisos. 
-
-Segue abaixo o Diagrama de Entidade-Relacionamento prototipado através da plataforma `dbdiagram.io`, utilizando a sintaxe própria DBML.
-
-**Estrutura das Tabelas (DBML)**
+Modelo relacional MySQL em DBML:
 
 ```dbml
-Table Funcionario {
-  id_funcionario integer [primary key, increment]
-  nome varchar
-  email varchar [unique, not null]
-  senha_hash varchar [not null]
-  perfil varchar 
+Table usuarios {
+  id bigint [pk, increment]
+  nome varchar(120) [not null]
+  email varchar(190) [unique, not null]
+  senha_hash varchar(255) [not null]
+  perfil varchar [not null]
+  turma_id bigint
+  criado_em timestamp [not null]
 }
 
-Table Aluno {
-  id_aluno integer [primary key, increment]
-  nome varchar
-  email varchar [unique, not null]
-  senha_hash varchar [not null]
-  id_modulo integer [not null]
+Table turmas {
+  id bigint [pk, increment]
+  nome varchar(120) [unique, not null]
 }
 
-Table Modulo {
-  id_modulo integer [primary key, increment]
-  nome varchar 
+Table avisos {
+  id bigint [pk, increment]
+  autor_id bigint [not null]
+  titulo varchar(120) [not null]
+  mensagem text [not null]
+  publicado_em timestamp [not null]
+  atualizado_em timestamp
 }
 
-Table Notificacao {
-  id_notificacao integer [primary key, increment]
-  id_modulo_destino integer
-  id_aluno_destino integer
-  titulo varchar
-  mensagem text
-  id_funcionario integer [not null]
-  status boolean
-  data timestamp
+Table avisos_destinatarios {
+  aviso_id bigint [not null]
+  usuario_id bigint
+  turma_id bigint
+
+  indexes {
+    (aviso_id, usuario_id) [pk]
+    (aviso_id, turma_id) [pk]
+  }
 }
 
-Ref: Notificacao.id_modulo_destino > Modulo.id_modulo
-Ref: Notificacao.id_aluno_destino > Aluno.id_aluno
-Ref: Aluno.id_modulo > Modulo.id_modulo
-Ref: Notificacao.id_funcionario > Funcionario.id_funcionario
+Table avisos_leituras {
+  aviso_id bigint [not null]
+  usuario_id bigint [not null]
+  lido_em timestamp [not null]
+
+  indexes {
+    (aviso_id, usuario_id) [pk]
+  }
+}
+
+Ref: usuarios.turma_id > turmas.id
+Ref: avisos.autor_id > usuarios.id
+Ref: avisos_destinatarios.aviso_id > avisos.id
+Ref: avisos_destinatarios.usuario_id > usuarios.id
+Ref: avisos_destinatarios.turma_id > turmas.id
+Ref: avisos_leituras.aviso_id > avisos.id
+Ref: avisos_leituras.usuario_id > usuarios.id
 ```
 
----
-
-## 2. Decisões de modelagem
-- "Notificacao" tem duas colunas de destino (`id_modulo_destino` e `id_aluno_destino`), cada notificação preenche só uma, dependendo se o envio é para uma turma inteira ou para um aluno específico.
-
-- "Funcionario" usa um único campo "perfil" para diferenciar professor de coordenador, em vez de duas tabelas separadas.
-
-- "Modulo" foi modelado separado de "turma" (que existe na escola, mas foi deixada fora do escopo deste projeto para simplificar).
+O modelo usa tabelas de associação para destinos e leituras, evitando colunas duplicadas e estruturas JSON.

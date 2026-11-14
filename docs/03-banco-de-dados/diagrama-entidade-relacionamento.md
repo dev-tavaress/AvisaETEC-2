@@ -1,5 +1,7 @@
 # DER - AvisaETEC
 
+> **Nota:** o banco de dados do AvisaETEC é **não relacional, em documentos JSON** (coleções `users` e `notices` em `server/data`), conforme o [Escopo do Projeto](../01-gestao-e-escopo/escopo-do-projeto.md). Este documento mantém a modelagem relacional original como referência das entidades e dos relacionamentos; ele ainda não foi reescrito no formato de coleções JSON.
+
 ## 1. Modelo DER
 O banco de dados relacional foi estruturado para suportar autenticação segura, controle de perfis e o envio flexível de avisos. 
 

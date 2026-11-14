@@ -1,5 +1,7 @@
 # Modelo Conceitual do Banco de Dados - AvisaETEC
 
+> **Nota:** o banco de dados do AvisaETEC é **não relacional, em documentos JSON** (coleções `users` e `notices` em `server/data`), conforme o [Escopo do Projeto](../01-gestao-e-escopo/escopo-do-projeto.md). Este documento mantém a modelagem relacional original como referência das entidades e dos relacionamentos; ele ainda não foi reescrito no formato de coleções JSON.
+
 ## 1. Entidades e Atributos
 
 1. Funcionario

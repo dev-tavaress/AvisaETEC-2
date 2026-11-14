@@ -1,0 +1,22 @@
+[
+  {
+    "id": "demo-student",
+    "name": "Beatriz Almeida",
+    "email": "beatriz.almeida@demo.avisaetec.local",
+    "passwordHash": "$2a$10$ryaOSWwWM9PRHQniNnWRIOAJ.gR/b4Ct8yQqQi/hmVmLViDXzpx.S",
+    "module": "2º Desenvolvimento de Sistemas",
+    "ra": "2025001842",
+    "role": "Aluno",
+    "permissions": []
+  },
+  {
+    "id": "demo-teacher",
+    "name": "Rafael Martins",
+    "email": "rafael.martins@demo.avisaetec.local",
+    "passwordHash": "$2a$10$ryaOSWwWM9PRHQniNnWRIOAJ.gR/b4Ct8yQqQi/hmVmLViDXzpx.S",
+    "module": "Desenvolvimento de Sistemas",
+    "ra": "DOC-0042",
+    "role": "Professor",
+    "permissions": ["notifications:emit"]
+  }
+]

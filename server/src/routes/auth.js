@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 import { Router } from 'express'
 import { requireAuth, signUser } from '../middleware/auth.js'
+import { loginAccountLimiter, loginIpLimiter } from '../middleware/rateLimit.js'
 import { usersStore } from '../lib/store.js'
 
 const router = Router()
@@ -13,7 +14,7 @@ function toPublicUser({ passwordHash: _passwordHash, ...publicUser }) {
   return publicUser
 }
 
-router.post('/auth/login', async (request, response, next) => {
+router.post('/auth/login', loginIpLimiter, loginAccountLimiter, async (request, response, next) => {
   try {
     const { email, password } = request.body ?? {}
     if (typeof email !== 'string' || typeof password !== 'string') {

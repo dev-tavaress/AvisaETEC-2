@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { Router } from 'express'
 import { requireAuth, requirePermission } from '../middleware/auth.js'
+import { emitNoticeLimiter } from '../middleware/rateLimit.js'
 import { noticesStore } from '../lib/store.js'
 
 const router = Router()
@@ -25,6 +26,7 @@ router.post(
   '/',
   requireAuth,
   requirePermission('notifications:emit'),
+  emitNoticeLimiter,
   async (request, response, next) => {
     try {
       const { title, message, audience } = request.body ?? {}

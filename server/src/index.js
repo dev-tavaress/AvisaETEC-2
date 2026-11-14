@@ -6,6 +6,10 @@ import { createSocketServer } from './socket.js'
 const app = createApp()
 const httpServer = http.createServer(app)
 
+// Defesa contra conexões lentas (slowloris): cabeçalhos e corpo precisam chegar rápido.
+httpServer.headersTimeout = 15_000
+httpServer.requestTimeout = 30_000
+
 app.set('io', createSocketServer(httpServer))
 
 httpServer.listen(env.port, () => {

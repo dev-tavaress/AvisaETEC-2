@@ -14,8 +14,8 @@ O presente documento detalha o planejamento, a arquitetura e o desenvolvimento d
 ## 2. Stacks Tecnológicas
 O projeto aplica conceitos ensinados pela grade curricular da instituição, sendo dividido em três etapas, englobando:
 
-- **Front-end:** Design e desenvolvimento em SPA utilizando React, com suporte de frameworks para integração ao back-end.
+- **Front-end:** Desenvolvimento baseado em SPA utilizando React 19. Estilização e design utilizando Tailwind CSS e Lucide React.
 
 - **Back-end:** Estrutura em JavaScript utilizando Node.js e Express, idealizada para comunicação bidirecional do servidor em tempo real com WebSockets (Socket.io).
 
-- **Banco de Dados:** Banco de dados arquitetado no MySQL com armazenamento em Redis. Segurança de dados através de autenticação por tokens (JWT), encriptação de palavras-passe e conformidade com as diretrizes da LGPD (Lei Geral de Proteção de Dados).
+- **Banco de Dados:** Banco de dados arquitetado em MySQL com armazenamento em Redis. Segurança de dados através de autenticação por tokens (JWT), encriptação de palavras-passe e conformidade com as diretrizes da LGPD (Lei Geral de Proteção de Dados).

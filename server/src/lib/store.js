@@ -1,9 +1,29 @@
-import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
+import { constants } from 'node:fs'
+import { copyFile, mkdir, readFile, rename, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const currentDirectory = path.dirname(fileURLToPath(import.meta.url))
 const dataDirectory = path.resolve(currentDirectory, '../../data')
+// Os arquivos versionados ficam em data/seed; os dados "vivos" (data/*.json) são
+// criados a partir deles na primeira execução e não entram no Git.
+const seedDirectory = path.join(dataDirectory, 'seed')
+const collectionFiles = ['users.json', 'notices.json']
+
+export async function initializeStore() {
+  await mkdir(dataDirectory, { recursive: true })
+  for (const fileName of collectionFiles) {
+    try {
+      await copyFile(
+        path.join(seedDirectory, fileName),
+        path.join(dataDirectory, fileName),
+        constants.COPYFILE_EXCL, // nunca sobrescreve dados existentes
+      )
+    } catch (error) {
+      if (error.code !== 'EEXIST') throw error
+    }
+  }
+}
 
 // Fila de escrita: evita que duas requisições simultâneas leiam o mesmo
 // estado e uma sobrescreva o aviso da outra.

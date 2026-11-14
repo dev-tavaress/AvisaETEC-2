@@ -8,6 +8,9 @@ coverage/
 .env.*
 !.env.example
 
+# dados em execução do servidor (os arquivos de exemplo ficam em server/data/seed)
+server/data/*.json
+
 # logs e temporários
 *.log
 npm-debug.log*

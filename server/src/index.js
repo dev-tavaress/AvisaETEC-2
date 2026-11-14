@@ -1,7 +1,10 @@
 import http from 'node:http'
 import { createApp } from './app.js'
 import { env } from './config/env.js'
+import { initializeStore } from './lib/store.js'
 import { createSocketServer } from './socket.js'
+
+await initializeStore()
 
 const app = createApp()
 const httpServer = http.createServer(app)

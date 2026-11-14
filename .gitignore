@@ -1,0 +1,21 @@
+# dependências e builds
+node_modules/
+dist/
+coverage/
+
+# variáveis de ambiente (o .env.example continua versionado)
+.env
+.env.*
+!.env.example
+
+# logs e temporários
+*.log
+npm-debug.log*
+*.tmp
+
+# sistema / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

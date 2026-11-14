@@ -1,0 +1,21 @@
+# Escopo do Projeto - AvisaETEC
+
+## 1. Objetivo Geral
+O presente documento detalha o planejamento, a arquitetura e o desenvolvimento do sistema **AvisaETEC**. Trata-se de uma aplicação web desenvolvida como Trabalho de Conclusão de Curso (TCC) com o intuito de modernizar e otimizar a comunicação escolar em tempo real dentro da ETEC.
+
+- **O Problema:**
+ Atualmente, a comunicação de avisos importantes (como alterações de horário, feriados, manutenções e dias não letivos) entre a instituição de ensino e os discentes enfrenta barreiras de agilidade e centralização. A dependência de canais descentralizados ou avisos em papel gera falhas na transmissão da informação.
+
+- **A Solução:**
+ Desenvolver um sistema web responsivo/mobile centralizado e de alta performance que permita aos funcionários da ETEC (diretores, coordenadores e professores) o envio seguro de notificações instantâneas e segmentadas para os alunos, contando também com um mural de avisos e calendário acadêmico integrados.
+
+---
+
+## 2. Stacks Tecnológicas
+O projeto aplica conceitos ensinados pela grade curricular da instituição, sendo dividido em três etapas, englobando:
+
+- **Front-end:** Design e desenvolvimento em SPA utilizando React, com suporte de frameworks para integração ao back-end.
+
+- **Back-end:** Estrutura em JavaScript utilizando Node.js e Express, idealizada para comunicação bidirecional do servidor em tempo real com WebSockets (Socket.io).
+
+- **Banco de Dados:** Banco de dados arquitetado no MySQL com armazenamento em Redis. Segurança de dados através de autenticação por tokens (JWT), encriptação de palavras-passe e conformidade com as diretrizes da LGPD (Lei Geral de Proteção de Dados).

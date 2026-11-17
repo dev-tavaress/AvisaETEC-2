@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="600" viewBox="0 0 1100 600">
+  <rect width="1100" height="600" fill="#fff"/>
+  <text x="550" y="45" text-anchor="middle" font-family="Arial" font-size="28" font-weight="700" fill="#111827">DER - modelo relacional MySQL</text>
+  <g font-family="Arial">
+    <rect x="40" y="100" width="220" height="190" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+    <text x="150" y="135" text-anchor="middle" font-size="20" font-weight="700" fill="#1e3a8a">USUARIOS</text>
+    <text x="60" y="170" font-size="15" fill="#374151">id (PK)</text>
+    <text x="60" y="198" font-size="15" fill="#374151">nome, email</text>
+    <text x="60" y="226" font-size="15" fill="#374151">senha_hash</text>
+    <text x="60" y="254" font-size="15" fill="#374151">perfil, turma_id (FK)</text>
+
+    <rect x="440" y="100" width="220" height="190" rx="12" fill="#fff7ed" stroke="#ea580c" stroke-width="3"/>
+    <text x="550" y="135" text-anchor="middle" font-size="20" font-weight="700" fill="#9a3412">AVISOS</text>
+    <text x="460" y="170" font-size="15" fill="#374151">id (PK)</text>
+    <text x="460" y="198" font-size="15" fill="#374151">autor_id (FK)</text>
+    <text x="460" y="226" font-size="15" fill="#374151">titulo, mensagem</text>
+    <text x="460" y="254" font-size="15" fill="#374151">datas de publicação</text>
+
+    <rect x="840" y="100" width="220" height="190" rx="12" fill="#ecfdf5" stroke="#16a34a" stroke-width="3"/>
+    <text x="950" y="135" text-anchor="middle" font-size="20" font-weight="700" fill="#166534">TURMAS</text>
+    <text x="860" y="170" font-size="15" fill="#374151">id (PK)</text>
+    <text x="860" y="198" font-size="15" fill="#374151">nome</text>
+
+    <rect x="440" y="390" width="220" height="150" rx="12" fill="#fdf4ff" stroke="#a855f7" stroke-width="3"/>
+    <text x="550" y="425" text-anchor="middle" font-size="18" font-weight="700" fill="#7e22ce">DESTINATARIOS</text>
+    <text x="460" y="460" font-size="15" fill="#374151">aviso_id (FK)</text>
+    <text x="460" y="488" font-size="15" fill="#374151">usuario_id ou turma_id</text>
+    <text x="460" y="516" font-size="15" fill="#374151">Exatamente um destino</text>
+
+    <rect x="40" y="390" width="220" height="150" rx="12" fill="#f8fafc" stroke="#64748b" stroke-width="3"/>
+    <text x="150" y="425" text-anchor="middle" font-size="18" font-weight="700" fill="#334155">LEITURAS</text>
+    <text x="60" y="460" font-size="15" fill="#374151">aviso_id (FK)</text>
+    <text x="60" y="488" font-size="15" fill="#374151">usuario_id (FK)</text>
+    <text x="60" y="516" font-size="15" fill="#374151">lido_em</text>
+  </g>
+  <g stroke="#6b7280" stroke-width="3" marker-end="url(#arrow)">
+    <line x1="260" y1="195" x2="440" y2="195"/>
+    <line x1="660" y1="195" x2="840" y2="195"/>
+    <line x1="550" y1="290" x2="550" y2="390"/>
+    <line x1="260" y1="195" x2="840" y2="195"/>
+    <line x1="150" y1="290" x2="150" y2="390"/>
+    <line x1="440" y1="195" x2="260" y2="465"/>
+  </g>
+  <text x="350" y="185" text-anchor="middle" font-family="Arial" font-size="13" fill="#4b5563">publica</text>
+  <text x="750" y="185" text-anchor="middle" font-family="Arial" font-size="13" fill="#4b5563">pertence</text>
+  <text x="572" y="345" font-family="Arial" font-size="13" fill="#4b5563">recebe</text>
+  <text x="150" y="555" text-anchor="middle" font-family="Arial" font-size="13" fill="#4b5563">um usuário pode registrar leitura para um aviso recebido</text>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12Z" fill="#6b7280"/></marker></defs>
+</svg>
